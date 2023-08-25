@@ -4,36 +4,7 @@ import {useCounterStore} from '../stores/counter';
 import NavBarComponent from '../components/NavBarComponent.vue';
 const counter = useCounterStore();
 
-/*const storeTask = ref(['']);*/
-const newTask = ref('');
-const tasks = ref([]);
-const editTask = ref({});
 
-function add() {
-  if (newTask.value !== '') {
-    const task = {text: newTask.value };
-   tasks.value.unshift(task);
-    newTask.value = '';
-  }
-}
-
-
-
-function edit(task) {
-  if (Object.keys(editTask.value).length === 0) {
-    editTask.value = task;
-  } else {
-    editTask.value = {};
-  }
-}
-
-
-function deleteTask(task) {
-  const removeMe = tasks.value.indexOf(task);
-  if (removeMe !== -1) {
-    tasks.value.splice(removeMe, 1);
-  }
-}
 </script>
 
 <template>
@@ -42,16 +13,16 @@ function deleteTask(task) {
   <section class="second">
   <div class="box">
     <div>
-    <input type="text" v-model="newTask" placeholder="Enter your task">
+    <input type="text" v-model="counter.newTask" placeholder="Enter your task">
   </div>
-  <button class="design"   @click="add">Save</button>
-    <h1>Task list</h1>
+  <button class="design"   @click="counter.add">Save</button>
+    <h1>Daily Tasks</h1>
     <ul>
-      <li v-for="task in tasks" :key="task.id">
-        <p v-if="editTask !== task">{{ task.text }}</p>
-        <input v-else type="text" v-model="task.text">
-        <button @click="edit(task)">Edit</button>
-        <button @click="deleteTask(task)">Delete</button>
+      <li v-for="task in counter.tasks" :key="task.id">
+        <p>{{ task.text }}</p>
+        <!-- <input v-else type="text" v-model="task.text"> -->
+        <button @click="counter.edit(task)">Edit</button>
+        <button @click="counter.deleteTask(task)">Delete</button>
       </li>
     </ul>
     
